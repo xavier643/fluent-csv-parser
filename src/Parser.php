@@ -4,31 +4,38 @@ namespace CSVParser;
 
 class Parser {
 
-    var $path;
-    var $header_array = array();
-    var $delimiter;
+    /*
+     * @var $path the file path to the csv file to be parsed.
+     * @var $headers The column headers for the CSV file that give context to the column values.
+     * @var $delimiter the delimiter value that separates column values for this CSV file.
+     */
 
-    function __construct ($path, $header_array = array(), $delimiter = ",") {
+    private $path;
+    private $headers = [];
+    private $delimiter;
 
-        if(file_exists($path)){ //verify path
-            $this -> $path = $path; //fill path
+    function __construct ($path, $headers = [], $delimiter = ',') {
 
-            if($delimiter == "," || $delimiter == "|" || $delimiter == "\t") { //verify delimiter
-                $this -> $delimiter = $delimiter; //fill delimiter
+        /*
+         * Check that the path does exist or throws an exception
+         * Checks that the delimiter is a , | or /t
+         * Fills headers, if it's empty grabs first line from CSV instead
+         */
 
-                if(count($header_array) > 0) { //make sure header array is not empty
-                    //idea on foreach to fill array came from: stackoverflow.com/questions/3045619/how-to-store-values-from-foreach-loop-into-an-array
-                    foreach($header_array as $header) {
-                        $this -> $header_array[] = $header;
-                    }
-                } else {
-                    echo "The header column is empty.";
-                }
-            } else {
-                echo "The delimter of $delimiter is not valid.";
-            }
-        } else {
-            echo "The path $path does not exist.";
-        }       
+        if(!file_exists($path)) throw new Exception("{$path} is not a valid file.");
+        $this->path = $path; //fill path
+
+        if($delimiter == ',' || $delimiter == '|' || $delimiter == '\t') { //verify delimiter
+            $this->delimiter = $delimiter; //fill delimiter
+        }
+
+        $this->headers = $headers;
+        if(empty($headers)) {
+            /* 
+             * Pull first row of data from the file to fill the headers since was empty
+             */
+
+            //$this->headers = first row of CSV
+        }
     }
 }
