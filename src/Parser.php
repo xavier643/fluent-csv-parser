@@ -46,7 +46,7 @@ class Parser {
              * @var data is an array of data from the csv file
              */
             $data = fgetcsv($path_open, 1000, $this->delimiter);
-            $this->headers = $data;
+            //$this->headers = $data; //this line created a new error
             //not using str_getcsv() because it makes array of arrays from whole CSV
 
 
