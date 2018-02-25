@@ -48,10 +48,10 @@ final class ParserTests extends \PHPUnit_Framework_TestCase
      */
     public function testConstructionWithHeader()
     {
-        $subject = new Parser($this->file, ['this, that, them']);
+        $subject = new Parser($this->file, ',', []);
 
         $this->assertInstanceOf('CSVParser\Parser', $subject);
-        $this->assertEquals(['this, that, them'], $subject->headers());
+        $this->assertEquals([], $subject->headers());
     }
 
     /**

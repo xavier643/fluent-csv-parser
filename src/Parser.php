@@ -19,7 +19,7 @@ class Parser {
      */
     private $delimiter;
 
-    function __construct ($path, $headers = [], $delimiter = ',') 
+    function __construct ($path, $delimiter = ',', $headers = []) 
     {
         /*
          * Check that the path does exist or throws an exception
