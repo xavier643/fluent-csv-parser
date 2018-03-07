@@ -48,10 +48,10 @@ final class ParserTests extends \PHPUnit_Framework_TestCase
      */
     public function testConstructionWithHeader()
     {
-        $subject = new Parser($this->file, ',', []);
+        $subject = new Parser($this->file, ',', ['name', 'social', 123]);
 
         $this->assertInstanceOf('CSVParser\Parser', $subject);
-        $this->assertEquals([], $subject->headers());
+        $this->assertEquals(['name', 'social', 123], $subject->headers());
     }
 
     /**
@@ -61,5 +61,24 @@ final class ParserTests extends \PHPUnit_Framework_TestCase
      */
     public function testConstructionNoFile() {
         $subject = new Parser('file_does_not_exist');
+    }
+
+    /**
+     * @test
+     */
+    public function testConstructorWithNoHeader()
+    {
+        /**
+         * fill @file with default information to test when no header is sent in
+         */
+        $file_open = fopen($this->file, 'r+');
+        fwrite($file_open, "name,");
+        fwrite($file_open, "social,");
+        fwrite($file_open, "123");
+        fclose($file_open);
+        $test_array = array('name', 'social', 123);
+
+        $subject = new Parser($this->file, ',');
+        $this->assertEquals($test_array, $subject->headers());
     }
 }

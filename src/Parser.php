@@ -39,14 +39,14 @@ class Parser {
         if(empty($headers)) 
         {
             /**
-             * @var path_open will open up path for reading
+             * @var path_open will open up path and is read only
              */
             $path_open = fopen($path, 'r');
             /**
              * @var data is an array of data from the csv file
              */
-            $data = fgetcsv($path_open, 1000, $this->delimiter);
-            //$this->headers = $data; //this line created a new error
+            $data = fgetcsv($path_open, 0, $this->delimiter);
+            $this->headers = $data; //this line created a new error
             //not using str_getcsv() because it makes array of arrays from whole CSV
 
 
