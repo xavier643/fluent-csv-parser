@@ -38,6 +38,12 @@ class Parser {
         $this->headers = $headers;
         if(empty($headers)) 
         {
+            $this->setHeaders($path);            
+        }
+    }
+    
+    public function setHeaders()
+    {
             /**
              * @var path_open will open up path and is read only
              */
@@ -46,18 +52,10 @@ class Parser {
              * @var data is an array of data from the csv file
              */
             $data = fgetcsv($path_open, 0, $this->delimiter);
-            $this->headers = $data; //this line created a new error
-            //not using str_getcsv() because it makes array of arrays from whole CSV
-
-
-            //$this->headers = first row of CSV
-            //line 31 will need to set path to an open resource in order to read this->path = fopen($path);
-            //will make path = to the resource.  File pointer.  function of fgetcsv in order to read in the rows.
-            //close the path when done
-        }
+            $this->headers = $data;
     }
 
-    public function headers()
+    public function getHeaders()
     {
         return $this->headers;
     }
