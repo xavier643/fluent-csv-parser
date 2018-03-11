@@ -51,7 +51,7 @@ final class ParserTests extends \PHPUnit_Framework_TestCase
         $subject = new Parser($this->file, ',', ['name', 'social', 123]);
 
         $this->assertInstanceOf('CSVParser\Parser', $subject);
-        $this->assertEquals(['name', 'social', 123], $subject->headers());
+        $this->assertEquals(['name', 'social', 123], $subject->getHeaders());
     }
 
     /**
@@ -79,6 +79,6 @@ final class ParserTests extends \PHPUnit_Framework_TestCase
         $expected = array('name', 'social', 123);
 
         $subject = new Parser($this->file, ',');
-        $this->assertEquals($expected, $subject->headers());
+        $this->assertEquals($expected, $subject->getHeaders());
     }
 }
