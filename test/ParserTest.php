@@ -76,9 +76,9 @@ final class ParserTests extends \PHPUnit_Framework_TestCase
         fwrite($file_open, "social,");
         fwrite($file_open, "123");
         fclose($file_open);
-        $expected = array('name', 'social', 123);
+        $test_array = array('name', 'social', 123);
 
         $subject = new Parser($this->file, ',');
-        $this->assertEquals($expected, $subject->getHeaders());
+        $this->assertEquals($test_array, $subject->getHeaders());
     }
 }
