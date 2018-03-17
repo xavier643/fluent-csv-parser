@@ -35,30 +35,30 @@ class Parser {
             throw new Exception("A delimiter of {$delimiter} is not supported.");    
         $this->delimiter = $delimiter; //fill delimiter
 
-        $this->headers = $headers;
+        
         if(empty($headers)) 
         {
-            /**
-             * @var path_open will open up path and is read only
-             */
-            $path_open = fopen($path, 'r');
-            /**
-             * @var data is an array of data from the csv file
-             */
-            $data = fgetcsv($path_open, 0, $this->delimiter);
-            $this->headers = $data; //this line created a new error
-            //not using str_getcsv() because it makes array of arrays from whole CSV
-
-
-            //$this->headers = first row of CSV
-            //line 31 will need to set path to an open resource in order to read this->path = fopen($path);
-            //will make path = to the resource.  File pointer.  function of fgetcsv in order to read in the rows.
-            //close the path when done
+            $this->setHeaders($path, $headers);
+        } else {
+            $this->headers = $headers;
         }
     }
 
     public function getHeaders()
     {
         return $this->headers;
+    }
+
+    public function setHeaders($path, $headers = [])
+    {
+        /**
+         * @var path_open will open up path and is read only
+         */
+        $path_open = fopen($path, 'r');
+        /**
+        * @var path_open will open up path and is read only
+        */
+        $data = fgetcsv($path_open, 0, $this->delimiter);
+        $this->headers = $data;
     }
 }
