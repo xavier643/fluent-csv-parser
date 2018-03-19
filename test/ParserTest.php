@@ -63,20 +63,36 @@ final class ParserTests extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     *
+     * Verifies the constructor reads the first row of a CSV file when the header parameter is not specified.
+     * NOTE: If a header array is not passed into the constructor it is assumed that the first row of the CSV
+     *      file contains the column headers.
      */
     public function testConstructorWithNoHeader()
     {
         /**
-         * fill @file with default information to test when no header is sent in
+         * fill @file with a 1 row of column headers and 2 rows of data.
          */
         $file_open = fopen($this->file, 'r+');
-        fwrite($file_open, "name,");
-        fwrite($file_open, "social,");
-        fwrite($file_open, "123");
+        fwrite($file_open, "name,social,id" . PHP_EOL);
+        fwrite($file_open, "Derek,1337,123" . PHP_EOL);
+        fwrite($file_open, "Arthur,1347,456" . PHP_EOL);
         fclose($file_open);
-        $expected = array('name', 'social', 123);
+        
+        $expected = ['name', 'social', 'id'];
 
         $subject = new Parser($this->file, ',');
         $this->assertEquals($expected, $subject->getHeaders());
     }
+
+    /**
+     * @test
+     * @expectedException Exception
+     * @expectedExceptionMessage A delimiter of . is not supported.
+     */
+    public function testPassingaPeriodAsDelimiter()
+    {
+        $subject = new Parser($this->file, '.');
+    }
+
 }
