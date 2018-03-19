@@ -21,9 +21,7 @@ final class ParserTests extends \PHPUnit_Framework_TestCase
 
     public function tearDown()
     {
-        /*
-         * removes the temporary file
-         */
+        // removes the temporary file
         unlink($this->file);
     }
 
@@ -76,9 +74,9 @@ final class ParserTests extends \PHPUnit_Framework_TestCase
         fwrite($file_open, "social,");
         fwrite($file_open, "123");
         fclose($file_open);
-        $test_array = array('name', 'social', 123);
+        $expected = array('name', 'social', 123);
 
         $subject = new Parser($this->file, ',');
-        $this->assertEquals($test_array, $subject->getHeaders());
+        $this->assertEquals($expected, $subject->getHeaders());
     }
 }

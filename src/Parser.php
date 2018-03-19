@@ -29,7 +29,7 @@ class Parser {
 
         if(!file_exists($path)) 
             throw new \Exception("{$path} is not a valid file.");
-        $this->path = $path; //fill path
+        $this->path = fopen($path, 'r'); //fill path
 
         if(!in_array($delimiter, [',', '|', '\t']))  //verify delimiter
             throw new Exception("A delimiter of {$delimiter} is not supported.");    
@@ -38,7 +38,9 @@ class Parser {
         
         if(empty($headers)) 
         {
-            $this->setHeaders($path, $headers);
+            //following line currently gets whole csv? Not just first line?
+            $data = fgetcsv($this->path, 0, $this->delimiter);
+            $this->headers = $data;
         } else {
             $this->headers = $headers;
         }
@@ -47,18 +49,5 @@ class Parser {
     public function getHeaders()
     {
         return $this->headers;
-    }
-
-    public function setHeaders($path, $headers = [])
-    {
-        /**
-         * @var path_open will open up path and is read only
-         */
-        $path_open = fopen($path, 'r');
-        /**
-        * @var path_open will open up path and is read only
-        */
-        $data = fgetcsv($path_open, 0, $this->delimiter);
-        $this->headers = $data;
     }
 }
